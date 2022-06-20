@@ -1,11 +1,20 @@
-name: hello-world
+name: CI on Xamarin Android project
 
 on: push
 
 jobs:
-  helloworld-job:
-    name: Hello world job
-    runs-on: ubuntu-22.04
+  build:
+    runs-on: macos-latest
     steps:
-      - name: print message
-        run: echo "Hello world from GitHub Actions!"
+      - name: Checkout
+        uses: actions/checkout@v2.4.2
+
+      - name: Show Current Directory
+        run: ls
+
+      - name: Android
+        run: |
+          nuget restore
+          cd FlensaApp
+          cd FlensaApp.Android
+          msbuild FlensaApp.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
