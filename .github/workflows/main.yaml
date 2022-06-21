@@ -27,3 +27,12 @@ jobs:
           cd FlensaApp
           cd FlensaApp.Android
           msbuild FlensaApp.Android.csproj /t:PackageForAndroid /p:Configuration=Debug
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          # Artifact name
+          name: Flensa App
+          path: FlensaApp/FlensaApp.Android/bin/Debug/com.companyname.flensaapp.apk
+
+
