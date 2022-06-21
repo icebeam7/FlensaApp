@@ -47,6 +47,7 @@ jobs:
         with:
           # Artifact name
           name: Flensa App
-          path: FlensaApp/FlensaApp.Android/bin/Release.apk
+          path: FlensaApp/FlensaApp.Android/bin/Release/com.companyname.flensaapp-Signed.apk
+          
 
 
