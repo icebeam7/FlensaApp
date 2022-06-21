@@ -40,13 +40,13 @@ jobs:
           nuget restore
           cd FlensaApp
           cd FlensaApp.Android
-          msbuild /t:SignAndroidPackage /p:Configuration=Release /p:AndroidPackageFormat=apk /p:AndroidKeyStore=true /p:AndroidSigningKeyAlias=flensakeystore /p:AndroidSigningKeyPass=${{ secrets.KEYSTORE_PASSWORD }} /p:AndroidSigningKeyStore=flensakeystore.keystore /p:AndroidSigningStorePass=${{ secrets.KEYSTORE_PASSWORD }} FlensaApp.Android.csproj
+          msbuild /t:SignAndroidPackage /p:Configuration=Release /p:AndroidPackageFormat=apk /p:AndroidKeyStore=true /p:AndroidSigningKeyAlias=flensakeystore /p:AndroidSigningKeyPass='${{ secrets.KEYSTORE_PASSWORD }}' /p:AndroidSigningKeyStore=flensakeystore.keystore /p:AndroidSigningStorePass='${{ secrets.KEYSTORE_PASSWORD }}' FlensaApp.Android.csproj
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
           # Artifact name
           name: Flensa App
-          path: FlensaApp/FlensaApp.Android/bin/Debug/com.companyname.flensaapp.apk
+          path: FlensaApp/FlensaApp.Android/bin/Release.apk
 
 
