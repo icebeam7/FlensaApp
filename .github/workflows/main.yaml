@@ -8,6 +8,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        
+      - name: Setup Android Signin
+        run: |
+          echo "${{ secrets.KEYSTORE }}" > flensakeystore.keystore.asc
+          gpg -d --passphrase "${{ secrets.GPG_PASSWORD }}" --batch flensakeystore.keystore.asc > ./FlensaApp/FlensaApp.Android/flensakeystore.keystore
+
+      - name: Update Android version Manifest action
+        uses: damienaicheh/update-android-version-manifest-action@v1.0.0
+        with:
+          android-manifest-path: './FlensaApp/FlensaApp.Android/Properties/AndroidManifest.xml'
+          version-code: ${{ github.run_number }}
+          version-name: ${{ secrets.APP_VERSION }}
+          print-file: true
+          
 
       - name: Setup NuGet.Config
         run: echo '<configuration><packageSources><add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /></packageSources></configuration>' > ~/.config/NuGet/NuGet.Config
@@ -26,7 +40,7 @@ jobs:
           nuget restore
           cd FlensaApp
           cd FlensaApp.Android
-          msbuild FlensaApp.Android.csproj /t:PackageForAndroid /p:Configuration=Debug
+          msbuild /t:SignAndroidPackage /p:Configuration=Release /p:AndroidPackageFormat=apk /p:AndroidKeyStore=true /p:AndroidSigningKeyAlias=flensakeystore /p:AndroidSigningKeyPass=${{ secrets.KEYSTORE_PASSWORD }} /p:AndroidSigningKeyStore=flensakeystore.keystore /p:AndroidSigningStorePass=${{ secrets.KEYSTORE_PASSWORD }} FlensaApp.Android.csproj
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
