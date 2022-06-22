@@ -50,9 +50,9 @@ jobs:
           path: FlensaApp/FlensaApp.Android/bin/Release/com.companyname.flensaapp-Signed.apk
       
       - name: Setup App Center CLI
-        run: npm install -g appcenter-cli
+        run: npm install --location=global appcenter-cli
         
       - name: Upload Android App to App Center
-        run: appcenter distribute release --file ./FlensaApp/FlensaApp.Android/bin/Release/com.companyname.flensaapp-Signed.apk --app icebeam/Flensa-App --groups Collaborators --token ${{ secrets.APP_CENTER_TOKEN }}
+        run: appcenter distribute release --file ./FlensaApp/FlensaApp.Android/bin/Release/com.companyname.flensaapp-Signed.apk --app icebeam/Flensa-App --group Collaborators --token ${{ secrets.APP_CENTER_TOKEN }}
 
 
